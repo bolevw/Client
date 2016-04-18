@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/global_include_toolbar" />
+
+    <FrameLayout
+        android:id="@+id/containerFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/cut_line" />
+
+    <com.example.administrator.client.wedgets.BottomNav
+        android:id="@+id/mainBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal">
+
+        <com.example.administrator.client.wedgets.BottomNavItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:bni_icon="@mipmap/ic_menu"
+            app:bni_text="点菜" />
+
+        <com.example.administrator.client.wedgets.BottomNavItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:bni_icon="@mipmap/ic_order"
+            app:bni_text="订单" />
+
+
+        <com.example.administrator.client.wedgets.BottomNavItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:bni_icon="@mipmap/ic_mine"
+            app:bni_text="我的" />
+    </com.example.administrator.client.wedgets.BottomNav>
+
+
+</LinearLayout>
