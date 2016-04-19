@@ -9,7 +9,8 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/menuRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/menuRecyclerView"
@@ -26,10 +27,10 @@
         android:background="@color/percent70WhiteColor">
 
         <LinearLayout
+            android:id="@+id/detailContent"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:id="@+id/detailContent"
             android:orientation="vertical">
 
 

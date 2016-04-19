@@ -7,6 +7,15 @@
 
     <include layout="@layout/global_include_toolbar" />
 
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/tableNumEditText"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:hint="请输入您的桌号"
+        android:inputType="number"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/createOrderRecyclerView"
         android:layout_width="match_parent"
