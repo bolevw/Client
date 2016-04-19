@@ -1,9 +1,12 @@
 package com.example.administrator.client.base;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Administrator on 2016/3/25.
  */
-public class ItemData<T, V> {
+public class ItemData<T, V> implements Parcelable {
 
     private T key;
     private V value;
@@ -16,6 +19,21 @@ public class ItemData<T, V> {
         this.key = key;
         this.value = value;
     }
+
+    protected ItemData(Parcel in) {
+    }
+
+    public static final Creator<ItemData> CREATOR = new Creator<ItemData>() {
+        @Override
+        public ItemData createFromParcel(Parcel in) {
+            return new ItemData(in);
+        }
+
+        @Override
+        public ItemData[] newArray(int size) {
+            return new ItemData[size];
+        }
+    };
 
     public T getKey() {
         return key;
@@ -31,5 +49,14 @@ public class ItemData<T, V> {
 
     public void setValue(V value) {
         this.value = value;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
     }
 }

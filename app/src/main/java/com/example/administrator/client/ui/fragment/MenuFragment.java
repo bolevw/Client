@@ -1,9 +1,11 @@
 package com.example.administrator.client.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,8 +32,10 @@ import com.example.administrator.client.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/4/18.
@@ -39,12 +44,15 @@ public class MenuFragment extends BaseFragment {
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
+    private RecyclerView menuListRecyclerView;
 
     private List<MenuModel> viewData = new ArrayList();
 
-    private Map<Integer, Integer> nos = new HashMap<>();
+    private Map<Integer, ItemData<Integer, MenuModel>> nos = new HashMap<>();
 
-    private List<ItemData<Integer, Integer>> list = new ArrayList<>();
+    private ArrayList<ItemData<Integer, ItemData<Integer, MenuModel>>> datas = new ArrayList<>();
+
+    private FrameLayout fragmentContent, menuListContent;
 
     private int no = 0;
 
@@ -53,12 +61,23 @@ public class MenuFragment extends BaseFragment {
 
     private Button submintButton;
 
+    private LinearLayout detailContent;
+
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
         setHasOptionsMenu(true);
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        cacluteMenu();
     }
 
     @Override
@@ -72,9 +91,20 @@ public class MenuFragment extends BaseFragment {
         moneyTextView = (TextView) v.findViewById(R.id.allMoneyTextView);
         noTextView = (TextView) v.findViewById(R.id.menuNoTextView);
 
+        fragmentContent = (FrameLayout) v.findViewById(R.id.fragmentContainer);
+        menuListContent = (FrameLayout) v.findViewById(R.id.menuListContent);
+
         submintButton = (Button) v.findViewById(R.id.submitButton);
 
+        menuListRecyclerView = (RecyclerView) v.findViewById(R.id.menuListRecyclerView);
+
+        menuListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        detailContent = (LinearLayout) v.findViewById(R.id.detailContent);
+
+
     }
+
 
     @Override
     protected void bind() {
@@ -86,13 +116,57 @@ public class MenuFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(onRefreshListener);
 
         recyclerView.setAdapter(new RVAdapter());
+
+        menuListRecyclerView.setAdapter(new MenuListRVAdapter());
+
+        detailContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentContent.setVisibility(fragmentContent.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+                menuListRecyclerView.getAdapter().notifyDataSetChanged();
+            }
+        });
+
+        menuListContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentContent.setVisibility(View.GONE);
+            }
+        });
     }
+
 
     @Override
     protected void unbind() {
         getData();
     }
 
+    int size = 0;
+    int all = 0;
+    int allSize = 0;
+
+    private void cacluteMenu() {
+
+        datas.clear();
+
+        size = nos.size();
+
+        all = 0;
+        allSize = 0;
+
+        Set<Integer> set = nos.keySet();
+        Iterator<Integer> iterator = set.iterator();
+        while (iterator.hasNext()) {
+            int position = iterator.next();
+            ItemData<Integer, MenuModel> mo = nos.get(position);
+            all = all + mo.getKey() * Integer.parseInt(mo.getValue().getMoney());
+            allSize = allSize + mo.getKey();
+            datas.add(new ItemData<Integer, ItemData<Integer, MenuModel>>(position, mo));
+        }
+
+        moneyTextView.setText(all + "");
+        noTextView.setText(size + "种菜," + allSize + "份。");
+    }
 
     private void getData() {
         refreshLayout.setRefreshing(true);
@@ -151,33 +225,40 @@ public class MenuFragment extends BaseFragment {
 
                 }
             });
-            vh.noTextView.setText("0");
 
 
             vh.addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    no = nos.get(position) == null ? 0 : nos.get(position);
+                    no = nos.get(position) == null ? 0 : nos.get(position).getKey();
                     no++;
-                    nos.put(position, no);
+                    nos.put(position, new ItemData<Integer, MenuModel>(no, model));
                     vh.noTextView.setText(String.valueOf(no));
+                    cacluteMenu();
+
                 }
             });
 
             vh.delButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    no = nos.get(position) == null ? 0 : nos.get(position);
+                    no = nos.get(position) == null ? 0 : nos.get(position).getKey();
 
                     if (no > 0) {
                         no--;
                     } else {
                         no = 0;
                     }
-                    nos.put(position, no);
+                    nos.put(position, new ItemData<Integer, MenuModel>(no, model));
                     vh.noTextView.setText(String.valueOf(no));
+                    if (no == 0) {
+                        nos.remove(position);
+                    }
+                    cacluteMenu();
                 }
             });
+            no = nos.get(position) == null ? 0 : nos.get(position).getKey();
+            vh.noTextView.setText(String.valueOf(no));
 
             vh.moneyTextView.setText(model.getMoney() + "元/份");
             vh.nameTextView.setText(model.getName());
@@ -222,6 +303,98 @@ public class MenuFragment extends BaseFragment {
     }
 
 
+    class MenuListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_list_recyclerview, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+            final VH vh = (VH) holder;
+            final ItemData<Integer, MenuModel> itemData = datas.get(position).getValue();
+            PicassoUtils.normalShowImage(getActivity(), itemData.getValue().getImageSrc(), vh.menuImageView);
+            vh.nameTextView.setText(itemData.getValue().getName());
+            vh.moneyTextView.setText(itemData.getValue().getMoney());
+
+
+            vh.addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    no = itemData.getKey();
+                    no++;
+                    vh.noTextView.setText(String.valueOf(no));
+                    itemData.setKey(no);
+                    itemData.setValue(itemData.getValue());
+                    datas.add(position, new ItemData<Integer, ItemData<Integer, MenuModel>>(datas.get(position).getKey(), itemData));
+                    nos.put(datas.get(position).getKey(), itemData);
+                    cacluteMenu();
+                }
+            });
+
+
+            vh.delButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    no = itemData.getKey();
+                    if (no > 0) {
+                        no--;
+                    } else {
+                        no = 0;
+                    }
+
+                    vh.noTextView.setText(String.valueOf(no));
+                    itemData.setKey(no);
+                    itemData.setValue(itemData.getValue());
+
+
+                    if (no == 0) {
+                        nos.remove(datas.get(position).getKey());
+                        datas.remove(position);
+                        notifyItemRemoved(position);
+                    } else {
+                        datas.add(position, new ItemData<Integer, ItemData<Integer, MenuModel>>(datas.get(position).getKey(), itemData));
+                        nos.put(datas.get(position).getKey(), itemData);
+                    }
+                    cacluteMenu();
+                }
+            });
+
+            vh.noTextView.setText(String.valueOf(itemData.getKey()));
+        }
+
+        @Override
+        public int getItemCount() {
+            return datas.size();
+        }
+
+        class VH extends RecyclerView.ViewHolder {
+
+            private ImageView menuImageView;
+
+            private TextView nameTextView;
+            private TextView moneyTextView;
+            private TextView noTextView;
+
+            private Button addButton;
+            private Button delButton;
+
+            public VH(View itemView) {
+                super(itemView);
+
+                menuImageView = (ImageView) itemView.findViewById(R.id.itemMenuImageView);
+                nameTextView = (TextView) itemView.findViewById(R.id.itemMenuName);
+                moneyTextView = (TextView) itemView.findViewById(R.id.itemMenuMoney);
+                noTextView = (TextView) itemView.findViewById(R.id.menuListNoTextView);
+
+                addButton = (Button) itemView.findViewById(R.id.menuListAddButton);
+                delButton = (Button) itemView.findViewById(R.id.menuListDelButton);
+
+            }
+        }
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
@@ -235,5 +408,17 @@ public class MenuFragment extends BaseFragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class Man extends LinearLayoutManager {
+
+        public Man(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            super.onLayoutChildren(recycler, state);
+        }
     }
 }

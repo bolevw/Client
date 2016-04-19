@@ -19,14 +19,17 @@
 
 
     <LinearLayout
+        android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/percent70WhiteColor">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:id="@+id/detailContent"
             android:orientation="vertical">
 
 
@@ -61,5 +64,15 @@
             android:layout_weight="1"
             android:text="选好了" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:visibility="gone">
+
+        <include layout="@layout/fragment_menu_list" />
+    </FrameLayout>
 
 </RelativeLayout>

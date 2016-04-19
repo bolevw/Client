@@ -25,7 +25,7 @@
         <attr name="bni_icon" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="FixRatioFrameLayout">
+    <declare-styleable name="FixLinearLayout">
         <attr name="baseOnWith" format="boolean" />
         <attr name="ratio" format="float" />
     </declare-styleable>
