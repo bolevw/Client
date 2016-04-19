@@ -2,26 +2,44 @@ package com.example.administrator.client.model;
 
 import com.avos.avoscloud.AVObject;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class MenuOrderAVModel extends AVObject implements Serializable {
+public class MenuOrderAVModel extends AVObject {
     private String userId;
 
     private String tableNum;
+    private List<MenuOrderItemAVModel> menuList;
+    private String username;
 
-    public List<MenuOrderItemModel> getItemModel() {
-        return itemModel;
+    private Integer orderStatus;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setItemModel(List<MenuOrderItemModel> itemModel) {
-        this.itemModel = itemModel;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    private List<MenuOrderItemModel> itemModel;
+    public int getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(int orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public List<MenuOrderItemAVModel> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<MenuOrderItemAVModel> menuList) {
+        this.menuList = menuList;
+    }
+
 
     public String getUserId() {
         return userId;

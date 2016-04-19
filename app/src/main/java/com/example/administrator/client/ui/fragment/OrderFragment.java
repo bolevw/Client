@@ -13,12 +13,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.example.administrator.client.R;
 import com.example.administrator.client.base.BaseFragment;
-import com.example.administrator.client.model.MenuOrderItemModel;
-import com.example.administrator.client.model.MenuOrderModel;
+import com.example.administrator.client.model.MenuOrderAVModel;
+import com.example.administrator.client.model.MenuOrderItemAVModel;
 import com.example.administrator.client.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class OrderFragment extends BaseFragment {
 
     private RecyclerView orderRecyclerView;
 
-    private List<MenuOrderModel> viewData = new ArrayList<>();
+    private List<MenuOrderAVModel> viewData = new ArrayList<>();
 
     @Nullable
     @Override
@@ -58,18 +59,20 @@ public class OrderFragment extends BaseFragment {
     }
 
     private void getData() {
-        AVQuery<MenuOrderModel> query = new AVQuery<MenuOrderModel>("MenuOrderTable");
+        AVQuery<AVObject> query = new AVQuery<AVObject>("MenuOrderTable");
 
         query.whereEqualTo("userId", preferencesUtil.getStringValue("userId"));
         query.whereNotEqualTo("orderStatus", 3);
 
-        query.findInBackground(new FindCallback<MenuOrderModel>() {
+        query.findInBackground(new FindCallback<AVObject>() {
             @Override
-            public void done(List<MenuOrderModel> list, AVException e) {
+            public void done(List<AVObject> list, AVException e) {
                 if (e == null) {
+                    for (AVObject object : list) {
 
-                    viewData.clear();
-                    viewData.addAll(list);
+                    }
+                    Log.d("message", list.toString());
+//                    orderRecyclerView.getAdapter().notifyDataSetChanged();
                 } else {
                     Log.e("error", e.getCode() + " mee" + e.getMessage());
                 }
@@ -96,16 +99,16 @@ public class OrderFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            OrderVH vh = (OrderVH) holder;
-            MenuOrderModel model = viewData.get(position);
+ /*           OrderVH vh = (OrderVH) holder;
+            MenuOrderAVModel model = viewData.get(position);
             vh.tableNumTextView.setText(model.getTableNum() + "号桌");
-            vh.setItemViewData(model.getItemModel());
+            vh.setItemViewData(model.getMenuList());
             vh.confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ToastUtils.showNormalToast("confim table");
                 }
-            });
+            });*/
 
         }
 
@@ -119,13 +122,13 @@ public class OrderFragment extends BaseFragment {
             private TextView tableNumTextView;
             private Button confirmButton;
 
-            private List<MenuOrderItemModel> itemViewData = new ArrayList<>();
+            private List<MenuOrderItemAVModel> itemViewData = new ArrayList<>();
 
-            public List<MenuOrderItemModel> getItemViewData() {
+            public List<MenuOrderItemAVModel> getItemViewData() {
                 return itemViewData;
             }
 
-            public void setItemViewData(List<MenuOrderItemModel> itemViewData) {
+            public void setItemViewData(List<MenuOrderItemAVModel> itemViewData) {
                 this.itemViewData = itemViewData;
                 itemOrderRecyclerView.getAdapter().notifyDataSetChanged();
             }
@@ -155,7 +158,7 @@ public class OrderFragment extends BaseFragment {
                 @Override
                 public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                     ItemVH vh = (ItemVH) holder;
-                    MenuOrderItemModel model = itemViewData.get(position);
+                    MenuOrderItemAVModel model = itemViewData.get(position);
 
                     vh.name.setText(model.getModel().getName());
                     vh.confirmButton.setOnClickListener(new View.OnClickListener() {

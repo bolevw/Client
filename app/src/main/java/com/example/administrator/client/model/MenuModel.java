@@ -1,13 +1,11 @@
 package com.example.administrator.client.model;
 
-import com.avos.avoscloud.AVObject;
-
 import java.io.Serializable;
 
 /**
  * Created by liubo on 4/17/16.
  */
-public class MenuModel extends AVObject implements Serializable {
+public class MenuModel implements Serializable {
 
     private String id;
     private String imageSrc;

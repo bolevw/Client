@@ -95,7 +95,7 @@ public class CreateOrderActivity extends BaseActivity {
         avObject.put("userId", userId);
         avObject.put("username", AVUser.getCurrentUser().getUsername());
         avObject.put("tableNum", tableNumEditText.getText().toString());
-        avObject.put("menuList", viewData);
+        avObject.put("menuList", viewData.toArray());
         avObject.put("orderStatus", 1);
         avObject.saveInBackground(new SaveCallback() {
             @Override
