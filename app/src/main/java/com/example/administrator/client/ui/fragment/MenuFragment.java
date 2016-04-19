@@ -27,6 +27,8 @@ import com.example.administrator.client.R;
 import com.example.administrator.client.base.BaseFragment;
 import com.example.administrator.client.base.ItemData;
 import com.example.administrator.client.model.MenuModel;
+import com.example.administrator.client.model.MenuOrder;
+import com.example.administrator.client.ui.activity.CreateOrderActivity;
 import com.example.administrator.client.utils.PicassoUtils;
 import com.example.administrator.client.utils.ToastUtils;
 
@@ -48,9 +50,16 @@ public class MenuFragment extends BaseFragment {
 
     private List<MenuModel> viewData = new ArrayList();
 
+
+
     private Map<Integer, ItemData<Integer, MenuModel>> nos = new HashMap<>();
 
     private ArrayList<ItemData<Integer, ItemData<Integer, MenuModel>>> datas = new ArrayList<>();
+
+
+
+
+    private List<MenuOrder> passData = new ArrayList<>();
 
     private FrameLayout fragmentContent, menuListContent;
 
@@ -59,12 +68,24 @@ public class MenuFragment extends BaseFragment {
     private TextView moneyTextView;
     private TextView noTextView;
 
-    private Button submintButton;
+    private Button submitButton;
 
     private LinearLayout detailContent;
 
 
+    static ListShowListener listShowListener;
 
+    public ListShowListener getListShowListener() {
+        return listShowListener;
+    }
+
+    public void setListShowListener(ListShowListener listShowListener) {
+        this.listShowListener = listShowListener;
+    }
+
+    public interface ListShowListener {
+        void listShowListener(boolean show);
+    }
 
     @Nullable
     @Override
@@ -94,7 +115,7 @@ public class MenuFragment extends BaseFragment {
         fragmentContent = (FrameLayout) v.findViewById(R.id.fragmentContainer);
         menuListContent = (FrameLayout) v.findViewById(R.id.menuListContent);
 
-        submintButton = (Button) v.findViewById(R.id.submitButton);
+        submitButton = (Button) v.findViewById(R.id.submitButton);
 
         menuListRecyclerView = (RecyclerView) v.findViewById(R.id.menuListRecyclerView);
 
@@ -124,6 +145,9 @@ public class MenuFragment extends BaseFragment {
             public void onClick(View v) {
                 fragmentContent.setVisibility(fragmentContent.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
                 menuListRecyclerView.getAdapter().notifyDataSetChanged();
+                if (fragmentContent.getVisibility() == View.VISIBLE) {
+                    listShowListener.listShowListener(true);
+                }
             }
         });
 
@@ -133,6 +157,24 @@ public class MenuFragment extends BaseFragment {
                 fragmentContent.setVisibility(View.GONE);
             }
         });
+
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (all == 0) {
+                    return;
+                }
+                CreateOrderActivity.newInstance(getActivity(), passData, all + "");
+            }
+        });
+    }
+
+    /**
+     * 隐藏list
+     */
+    public void hideList() {
+        fragmentContent.setVisibility(View.GONE);
     }
 
 
@@ -147,7 +189,10 @@ public class MenuFragment extends BaseFragment {
 
     private void cacluteMenu() {
 
+
+        recyclerView.getAdapter().notifyDataSetChanged();
         datas.clear();
+        passData.clear();
 
         size = nos.size();
 
@@ -162,6 +207,7 @@ public class MenuFragment extends BaseFragment {
             all = all + mo.getKey() * Integer.parseInt(mo.getValue().getMoney());
             allSize = allSize + mo.getKey();
             datas.add(new ItemData<Integer, ItemData<Integer, MenuModel>>(position, mo));
+            passData.add(new MenuOrder(mo.getKey(), mo.getValue()));
         }
 
         moneyTextView.setText(all + "");

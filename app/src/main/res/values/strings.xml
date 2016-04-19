@@ -26,4 +26,5 @@
 
 
     <string name="title_add_menu">添加菜单</string>
+    <string name="title_create_order">创建订单</string>
 </resources>

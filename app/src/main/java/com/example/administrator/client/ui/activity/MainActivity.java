@@ -10,7 +10,7 @@ import com.example.administrator.client.utils.FragmentUtils;
 import com.example.administrator.client.wedgets.BottomNav;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MenuFragment.ListShowListener {
 
     private BottomNav bottomNav;
     BaseFragment[] fragments = new BaseFragment[3];
@@ -31,9 +31,21 @@ public class MainActivity extends BaseActivity {
         getToolbar().setNavigationOnClickListener(null);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (this.show && currentP == 0) {
+            ((MenuFragment) fragments[0]).hideList();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private int currentP = 0;
     BottomNav.OnNavItemClickListener onNavItemClickListener = new BottomNav.OnNavItemClickListener() {
         @Override
         public void onItemClick(int position) {
+            currentP = position;
             switchFragment(position);
         }
     };
@@ -44,6 +56,7 @@ public class MainActivity extends BaseActivity {
             switch (p) {
                 case 0:
                     fragment = new MenuFragment();
+                    ((MenuFragment) fragment).setListShowListener(this);
                     fragments[0] = fragment;
                     break;
                 case 1:
@@ -69,5 +82,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void unBind() {
 
+    }
+
+    private boolean show = false;
+
+    @Override
+    public void listShowListener(boolean show) {
+        this.show = show;
     }
 }

@@ -3,16 +3,26 @@ package com.example.administrator.client.base;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/3/25.
  */
-public class ItemData<T, V> implements Parcelable {
+public class ItemData<T, V> implements Parcelable, Serializable {
 
     private T key;
     private V value;
 
 
     public ItemData() {
+    }
+
+    @Override
+    public String toString() {
+        return "ItemData{" +
+                "key=" + key +
+                ", value=" + value +
+                '}';
     }
 
     public ItemData(T key, V value) {
