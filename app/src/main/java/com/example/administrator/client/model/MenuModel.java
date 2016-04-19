@@ -15,6 +15,15 @@ public class MenuModel extends AVObject implements Serializable {
     private String detail;
     private String function;
     private String money;
+    private int menuStatus = 1;
+
+    public int getMenuStatus() {
+        return menuStatus;
+    }
+
+    public void setMenuStatus(int menuStatus) {
+        this.menuStatus = menuStatus;
+    }
 
     public String getMoney() {
         return money;
