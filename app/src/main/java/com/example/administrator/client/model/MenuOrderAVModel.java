@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class MenuOrderModel extends AVObject implements Serializable {
+public class MenuOrderAVModel extends AVObject implements Serializable {
     private String userId;
 
     private String tableNum;

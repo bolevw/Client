@@ -6,17 +6,22 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
+import com.example.administrator.client.utils.SharedPreferencesUtil;
+
 /**
  * Created by Administrator on 2016/3/21.
  */
 public abstract class BaseFragment extends Fragment {
 
     public static final String TAG = BaseFragment.class.getSimpleName();
+    protected SharedPreferencesUtil preferencesUtil;
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        preferencesUtil = SharedPreferencesUtil.getInstance(BaseApplication.getContext());
+
         initView(view);
         setListener();
         bind();
