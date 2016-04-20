@@ -30,4 +30,5 @@
     <string name="title_about_me">关于我</string>
     <string name="title_change_birth">修改生日</string>
     <string name="title_change_pw">修改密码</string>
+    <string name="title_get_num">取号</string>
 </resources>

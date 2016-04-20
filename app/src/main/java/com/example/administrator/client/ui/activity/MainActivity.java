@@ -1,5 +1,7 @@
 package com.example.administrator.client.ui.activity;
 
+import android.widget.TextView;
+
 import com.example.administrator.client.R;
 import com.example.administrator.client.base.BaseActivity;
 import com.example.administrator.client.base.BaseFragment;
@@ -15,6 +17,7 @@ public class MainActivity extends BaseActivity implements MenuFragment.ListShowL
     private BottomNav bottomNav;
     BaseFragment[] fragments = new BaseFragment[3];
 
+    private TextView numTextView;
 
     @Override
     protected void initView() {
@@ -22,7 +25,10 @@ public class MainActivity extends BaseActivity implements MenuFragment.ListShowL
         bottomNav = (BottomNav) findViewById(R.id.mainBottomNav);
         switchFragment(0);
 
+        numTextView = (TextView) findViewById(R.id.num);
         getToolbar().setNavigationIcon(R.mipmap.ic_menu);
+
+        numTextView.setText("您是" + preferencesUtil.getIntValue("num") + "号桌");
     }
 
     @Override

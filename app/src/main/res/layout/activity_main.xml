@@ -8,6 +8,14 @@
 
     <include layout="@layout/global_include_toolbar" />
 
+    <TextView
+        android:id="@+id/num"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/orange_800"
+        android:textSize="@dimen/text_title" />
+
     <FrameLayout
         android:id="@+id/containerFrameLayout"
         android:layout_width="match_parent"

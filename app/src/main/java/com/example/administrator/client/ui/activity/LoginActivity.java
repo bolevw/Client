@@ -47,8 +47,13 @@ public class LoginActivity extends BaseActivity {
         registerTextView = (TextView) findViewById(R.id.registerTextView);
 
         if (preferencesUtil.getBooleanValue("login")) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            if (!preferencesUtil.getBooleanValue("getNum")) {
+                startActivity(new Intent(this, GetNumActivity.class));
+                finish();
+            } else {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
         } else {
             mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
@@ -197,7 +202,7 @@ public class LoginActivity extends BaseActivity {
                         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                     }
 
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, GetNumActivity.class));
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     preferencesUtil.saveValue(new NameValue("login", true));
                     preferencesUtil.saveValue(new NameValue("userId", avUser.getObjectId()));

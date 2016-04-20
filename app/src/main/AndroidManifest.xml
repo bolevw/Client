@@ -65,6 +65,11 @@
         <activity
             android:name=".ui.activity.AlbumActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.GetNumActivity"
+            android:label="@string/title_get_num"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
