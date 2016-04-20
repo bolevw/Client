@@ -18,7 +18,8 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.example.administrator.client.R;
 import com.example.administrator.client.base.BaseActivity;
-import com.example.administrator.client.model.MenuOrderItemModel;
+import com.example.administrator.client.model.OrderItemModel;
+import com.example.administrator.client.utils.GsonUtils;
 import com.example.administrator.client.utils.ToastUtils;
 
 import java.io.Serializable;
@@ -39,10 +40,10 @@ public class CreateOrderActivity extends BaseActivity {
 
     private AppCompatEditText tableNumEditText;
 
-    private List<MenuOrderItemModel> viewData = new ArrayList<>();
+    private List<OrderItemModel> viewData = new ArrayList<>();
     private String allMoney;
 
-    public static void newInstance(Activity activity, List<MenuOrderItemModel> viewData, String allMoney) {
+    public static void newInstance(Activity activity, List<OrderItemModel> viewData, String allMoney) {
         Intent intent = new Intent(activity, CreateOrderActivity.class);
         intent.putExtra("data", (Serializable) viewData);
         intent.putExtra("allMoney", allMoney);
@@ -55,7 +56,7 @@ public class CreateOrderActivity extends BaseActivity {
         setContentView(R.layout.activity_create_order);
 
         Intent intent = getIntent();
-        viewData = (List<MenuOrderItemModel>) intent.getSerializableExtra("data");
+        viewData = (List<OrderItemModel>) intent.getSerializableExtra("data");
         allMoney = intent.getStringExtra("allMoney");
 
 
@@ -89,11 +90,11 @@ public class CreateOrderActivity extends BaseActivity {
     private void createMenuOrder() {
 
         String userId = preferencesUtil.getStringValue("userId");
-        AVObject avObject = new AVObject("MenuOrderTable");
+        AVObject avObject = new AVObject("OrderTable");
         avObject.put("userId", userId);
         avObject.put("username", AVUser.getCurrentUser().getUsername());
         avObject.put("tableNum", preferencesUtil.getIntValue("num") + "");
-        avObject.put("menuList", viewData.toArray());
+        avObject.put("menuList", GsonUtils.getInstance().getGson().toJson(viewData));
         avObject.put("orderStatus", 1);
         avObject.saveInBackground(new SaveCallback() {
             @Override
@@ -131,7 +132,7 @@ public class CreateOrderActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             VH vh = (VH) holder;
-            MenuOrderItemModel itemData = viewData.get(position);
+            OrderItemModel itemData = viewData.get(position);
             Log.d("message", itemData.toString());
 
             vh.nameTextView.setText(itemData.getModel().getName());

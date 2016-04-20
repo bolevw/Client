@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_click_white"
     android:orientation="horizontal">
 
     <TextView
@@ -11,10 +12,21 @@
         android:layout_weight="1"
         android:text="11" />
 
-    <Button
-        android:id="@+id/confirmButton"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="确认收菜" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="已经收到菜" />
+
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确认收菜" />
+    </FrameLayout>
 
 </LinearLayout>

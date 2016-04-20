@@ -1,20 +1,32 @@
 package com.example.administrator.client.model;
 
-import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVClassName;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class MenuOrderAVModel extends AVObject {
+public class OrderAVModel {
+    private String id;
     private String userId;
-
     private String tableNum;
-    private List<MenuOrderItemAVModel> menuList;
+    private List<OrderItemAVModel> menuList;
     private String username;
-
     private Integer orderStatus;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
     public String getUsername() {
         return username;
@@ -32,11 +44,11 @@ public class MenuOrderAVModel extends AVObject {
         this.orderStatus = orderStatus;
     }
 
-    public List<MenuOrderItemAVModel> getMenuList() {
+    public List<OrderItemAVModel> getMenuList() {
         return menuList;
     }
 
-    public void setMenuList(List<MenuOrderItemAVModel> menuList) {
+    public void setMenuList(List<OrderItemAVModel> menuList) {
         this.menuList = menuList;
     }
 

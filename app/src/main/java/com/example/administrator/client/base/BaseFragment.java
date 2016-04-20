@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
+import com.avos.avoscloud.AVException;
 import com.example.administrator.client.utils.SharedPreferencesUtil;
 
 /**
@@ -28,14 +29,10 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-
-
-
-
-
-    public void logError(Throwable e) {
-        Log.e("error", e.toString());
+    public void logError(AVException e) {
+        Log.e("error", e.getCode() + e.getMessage());
     }
+
     protected abstract void initView(View v);
 
     protected abstract void bind();

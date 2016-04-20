@@ -27,7 +27,7 @@ import com.example.administrator.client.R;
 import com.example.administrator.client.base.BaseFragment;
 import com.example.administrator.client.base.ItemData;
 import com.example.administrator.client.model.MenuModel;
-import com.example.administrator.client.model.MenuOrderItemModel;
+import com.example.administrator.client.model.OrderItemModel;
 import com.example.administrator.client.ui.activity.CreateOrderActivity;
 import com.example.administrator.client.utils.PicassoUtils;
 import com.example.administrator.client.utils.ToastUtils;
@@ -56,7 +56,7 @@ public class MenuFragment extends BaseFragment {
     private ArrayList<ItemData<Integer, ItemData<Integer, MenuModel>>> datas = new ArrayList<>();
 
 
-    private List<MenuOrderItemModel> passData = new ArrayList<>();
+    private List<OrderItemModel> passData = new ArrayList<>();
 
     private FrameLayout fragmentContent, menuListContent;
 
@@ -203,7 +203,7 @@ public class MenuFragment extends BaseFragment {
             all = all + mo.getKey() * Integer.parseInt(mo.getValue().getMoney());
             allSize = allSize + mo.getKey();
             datas.add(new ItemData<Integer, ItemData<Integer, MenuModel>>(position, mo));
-            passData.add(new MenuOrderItemModel(mo.getKey(), mo.getValue()));
+            passData.add(new OrderItemModel(mo.getKey(), mo.getValue()));
         }
 
         moneyTextView.setText(all + "");

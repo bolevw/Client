@@ -5,16 +5,16 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class MenuOrderItemAVModel implements Serializable {
+public class OrderItemModel implements Serializable {
 
 
     private Integer num;
     private MenuModel model;
 
-    public MenuOrderItemAVModel() {
+    public OrderItemModel() {
     }
 
-    public MenuOrderItemAVModel(Integer num, MenuModel model) {
+    public OrderItemModel(Integer num, MenuModel model) {
         this.num = num;
         this.model = model;
     }
