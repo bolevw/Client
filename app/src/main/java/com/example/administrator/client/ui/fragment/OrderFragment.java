@@ -123,8 +123,8 @@ public class OrderFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            OrderVH vh = (OrderVH) holder;
-            OrderAVModel model = viewData.get(position);
+            final OrderVH vh = (OrderVH) holder;
+            final OrderAVModel model = viewData.get(position);
 
             vh.setItemViewData(new ItemData<Integer, List<OrderItemAVModel>>(position, model.getMenuList()));
             if (model.getOrderStatus() == 2) {
@@ -141,7 +141,24 @@ public class OrderFragment extends BaseFragment {
             vh.confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.showNormalToast("confim table");
+                    AVQuery<AVObject> query = new AVQuery<AVObject>("OrderTable");
+                    query.whereEqualTo("objectId", model.getId());
+                    query.findInBackground(new FindCallback<AVObject>() {
+                        @Override
+                        public void done(List<AVObject> list, AVException e) {
+                            AVObject object = list.get(0);
+                            object.put("orderStatus", 3);//开始做菜
+                            object.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(AVException e) {
+                                    if (e == null) {
+                                        vh.confirmButton.setText("收到所有的菜");
+                                        vh.confirmButton.setEnabled(false);
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }
             });
 
@@ -202,48 +219,51 @@ public class OrderFragment extends BaseFragment {
                 @Override
                 public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
                     final ItemVH vh = (ItemVH) holder;
-                    OrderItemAVModel model = itemViewData.getValue().get(position);
+                    final OrderItemAVModel model = itemViewData.getValue().get(position);
 
                     vh.name.setText(model.getModel().getName());
-                    int status = model.getModel().getMenuStatus();
+                    final int status = model.getModel().getMenuStatus();
                     vh.confirmButton.setTag(itemViewData.getKey());
                     vh.confirmButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-                            final List<OrderItemAVModel> list1 = itemViewData.getValue();
-                            OrderItemAVModel orderItemAVModel = list1.get(position);
-                            MenuAVModel menuAVModel = orderItemAVModel.getModel();
-                            menuAVModel.setMenuStatus(2);
-                            list1.remove(position);
-                            orderItemAVModel.setModel(menuAVModel);
-                            list1.add(orderItemAVModel);
+                            if (model.getModel().getMenuStatus() == 3) {
+                                final List<OrderItemAVModel> list1 = itemViewData.getValue();
+                                OrderItemAVModel orderItemAVModel = list1.get(position);
+                                MenuAVModel menuAVModel = orderItemAVModel.getModel();
+                                menuAVModel.setMenuStatus(2);
+                                list1.remove(position);
+                                orderItemAVModel.setModel(menuAVModel);
+                                list1.add(orderItemAVModel);
 //                            setItemViewData(new ItemData<Integer, List<OrderItemAVModel>>(itemViewData.getKey(), list));
 
 
-                            int p = (int) vh.confirmButton.getTag();
-                            String obId = viewData.get(p).getId();
-                            AVQuery<AVObject> query = new AVQuery<AVObject>("OrderTable");
-                            query.whereEqualTo("objectId", obId);
-                            query.findInBackground(new FindCallback<AVObject>() {
-                                @Override
-                                public void done(List<AVObject> list, AVException e) {
-                                    if (e == null && list.size() > 0) {
-                                        AVObject getOb = list.get(0);
-                                        getOb.put("menuList", GsonUtils.getInstance().getGson().toJson(list1));
-                                        getOb.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(AVException e) {
-                                                if (e == null) {
-                                                    vh.confirmButton.setVisibility(View.GONE);
-                                                    ToastUtils.showNormalToast("修改成功");
-                                                    getData();
+                                int p = (int) vh.confirmButton.getTag();
+                                String obId = viewData.get(p).getId();
+                                AVQuery<AVObject> query = new AVQuery<AVObject>("OrderTable");
+                                query.whereEqualTo("objectId", obId);
+                                query.findInBackground(new FindCallback<AVObject>() {
+                                    @Override
+                                    public void done(List<AVObject> list, AVException e) {
+                                        if (e == null && list.size() > 0) {
+                                            AVObject getOb = list.get(0);
+                                            getOb.put("menuList", GsonUtils.getInstance().getGson().toJson(list1));
+                                            getOb.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(AVException e) {
+                                                    if (e == null) {
+                                                        vh.confirmButton.setVisibility(View.GONE);
+                                                        ToastUtils.showNormalToast("修改成功");
+                                                        getData();
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                return;
+                            }
                         }
                     });
 
