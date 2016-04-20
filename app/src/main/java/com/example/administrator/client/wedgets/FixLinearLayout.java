@@ -25,7 +25,7 @@ public class FixLinearLayout extends LinearLayout {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FixLinearLayout);
 
-        radio = ta.getFloat(R.styleable.FixLinearLayout_ratio, 1);
+        radio = ta.getFloat(R.styleable.FixLinearLayout_ratios, 1);
         baseOnWith = ta.getBoolean(R.styleable.FixLinearLayout_baseOnWith, false);
         ta.recycle();
 

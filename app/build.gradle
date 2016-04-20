@@ -26,5 +26,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile files('libs/httpmime-4.2.4.jar')
     compile 'com.android.support:design:23.1.1'
+    compile 'io.reactivex:rxjava:1.0.+'
+    compile 'io.reactivex:rxandroid:0.23.+'
 
 }

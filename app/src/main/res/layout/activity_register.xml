@@ -68,6 +68,16 @@
     </android.support.design.widget.TextInputLayout>
 
 
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/birthEditText"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:hint="请输入您的生日，以享受更好的服务"
+        android:inputType="date" />
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/registerButton"
         android:layout_width="match_parent"

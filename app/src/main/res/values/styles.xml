@@ -27,7 +27,7 @@
 
     <declare-styleable name="FixLinearLayout">
         <attr name="baseOnWith" format="boolean" />
-        <attr name="ratio" format="float" />
+        <attr name="ratios" format="float" />
     </declare-styleable>
 
 
@@ -44,5 +44,11 @@
         <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
         <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
     </style>
+
+
+    <declare-styleable name="FixRatioFrameLayout">
+        <attr name="ratio" format="float" />
+        <attr name="baseOnWidth" format="boolean" />
+    </declare-styleable>
 
 </resources>

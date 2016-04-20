@@ -45,6 +45,26 @@
             android:name=".ui.activity.CreateOrderActivity"
             android:label="@string/title_create_order"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.AboutMeActivity"
+            android:label="@string/title_about_me"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.ChangeBirthActivity"
+            android:label="@string/title_change_birth"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".ui.activity.ChangePwActivity"
+            android:label="@string/title_change_pw"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.AlbumActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

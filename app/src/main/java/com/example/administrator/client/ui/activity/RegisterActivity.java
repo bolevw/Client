@@ -23,6 +23,7 @@ public class RegisterActivity extends BaseActivity {
     private AutoCompleteTextView emailEditText;
     private AppCompatEditText passwordEditText;
     private AppCompatEditText againPasswordEditText;
+    private AppCompatEditText birthEditText;
 
     private AppCompatButton registerButton;
 
@@ -33,6 +34,7 @@ public class RegisterActivity extends BaseActivity {
         emailEditText = (AutoCompleteTextView) findViewById(R.id.email);
         passwordEditText = (AppCompatEditText) findViewById(R.id.password);
         againPasswordEditText = (AppCompatEditText) findViewById(R.id.passwordAgain);
+        birthEditText = (AppCompatEditText) findViewById(R.id.birthEditText);
 
         registerButton = (AppCompatButton) findViewById(R.id.registerButton);
     }
@@ -65,16 +67,20 @@ public class RegisterActivity extends BaseActivity {
             passwordEditText.setError("密码长度不能小于6位");
         } else if (!TextUtils.isEmpty(passwordAgain) && !passwordAgain.equals(password)) {
             againPasswordEditText.setError("确认密码与密码不一致");
+        } else if (TextUtils.isEmpty(birthEditText.getText().toString())) {
+            ToastUtils.showNormalToast("请输入您的生日");
         } else {
-            register(email, password, passwordAgain);
+            register(email, password, passwordAgain, birthEditText.getText().toString());
         }
     }
 
-    private void register(final String email, String password, String passwordAgain) {
+    private void register(final String email, String password, String passwordAgain, String s) {
 
         final AVUser avUser = new AVUser();
         avUser.setUsername(email);
         avUser.setPassword(password);
+        avUser.put("birth", s);
+        avUser.put("integral", 0);
         avUser.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
