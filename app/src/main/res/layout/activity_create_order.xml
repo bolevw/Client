@@ -11,6 +11,7 @@
         android:id="@+id/tableNumEditText"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:enabled="false"
         android:hint="请输入您的桌号"
         android:inputType="number"
         android:paddingLeft="@dimen/activity_vertical_margin"

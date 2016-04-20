@@ -7,12 +7,17 @@ import java.io.Serializable;
  */
 public class MenuModel implements Serializable {
 
+
     private String id;
     private String imageSrc;
     private String name;
     private String detail;
     private String function;
     private String money;
+    private String type;
+    private String taste;
+    private String method;
+    private boolean has;
     private int menuStatus = 1;
 
     public int getMenuStatus() {
@@ -21,6 +26,38 @@ public class MenuModel implements Serializable {
 
     public void setMenuStatus(int menuStatus) {
         this.menuStatus = menuStatus;
+    }
+
+    public boolean isHas() {
+        return has;
+    }
+
+    public void setHas(boolean has) {
+        this.has = has;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTaste() {
+        return taste;
+    }
+
+    public void setTaste(String taste) {
+        this.taste = taste;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     public String getMoney() {

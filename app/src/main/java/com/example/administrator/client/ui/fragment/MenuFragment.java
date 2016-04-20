@@ -187,7 +187,6 @@ public class MenuFragment extends BaseFragment {
     private void cacluteMenu() {
 
 
-
         datas.clear();
         passData.clear();
 
@@ -232,6 +231,10 @@ public class MenuFragment extends BaseFragment {
                             model.setMoney(object.getString("money"));
                             String url = object.getAVFile("picSrc").getUrl();
                             model.setImageSrc(url);
+                            model.setHas(object.getBoolean("has"));
+                            model.setType(object.getString("type"));
+                            model.setTaste(object.getString("taste"));
+                            model.setMethod(object.getString("method"));
                             viewData.add(model);
                         }
 

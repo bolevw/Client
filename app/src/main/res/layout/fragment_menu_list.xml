@@ -13,7 +13,7 @@
         android:background="@color/common_background_white"
         android:orientation="vertical"
         app:baseOnWith="true"
-        app:ratio="0.5">
+        app:ratios="0.5">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/menuListRecyclerView"

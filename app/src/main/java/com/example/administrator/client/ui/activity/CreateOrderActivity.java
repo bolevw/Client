@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +58,7 @@ public class CreateOrderActivity extends BaseActivity {
         viewData = (List<MenuOrderItemModel>) intent.getSerializableExtra("data");
         allMoney = intent.getStringExtra("allMoney");
 
+
         recyclerView = (RecyclerView) findViewById(R.id.createOrderRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -69,6 +69,8 @@ public class CreateOrderActivity extends BaseActivity {
         allMoneyTextView.setText(allMoney);
 
         tableNumEditText = (AppCompatEditText) findViewById(R.id.tableNumEditText);
+
+        tableNumEditText.setText(preferencesUtil.getIntValue("num") + "桌");
     }
 
     @Override
@@ -85,16 +87,12 @@ public class CreateOrderActivity extends BaseActivity {
     }
 
     private void createMenuOrder() {
-        if (TextUtils.isEmpty(tableNumEditText.getText().toString())) {
-            ToastUtils.showNormalToast("请输入您的桌号，以方便上菜");
-            return;
-        }
 
         String userId = preferencesUtil.getStringValue("userId");
         AVObject avObject = new AVObject("MenuOrderTable");
         avObject.put("userId", userId);
         avObject.put("username", AVUser.getCurrentUser().getUsername());
-        avObject.put("tableNum", tableNumEditText.getText().toString());
+        avObject.put("tableNum", preferencesUtil.getIntValue("num") + "");
         avObject.put("menuList", viewData.toArray());
         avObject.put("orderStatus", 1);
         avObject.saveInBackground(new SaveCallback() {
