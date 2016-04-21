@@ -79,6 +79,7 @@ public class OrderFragment extends BaseFragment {
         AVQuery<AVObject> query = new AVQuery<>("OrderTable");
         query.whereEqualTo("userId", preferencesUtil.getStringValue("userId"));
         query.whereLessThan("orderStatus", ORDER_CLIENT_PAY_FINISH);
+        query.whereEqualTo("tableNum", preferencesUtil.getIntValue("num") + "");
 
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<AVObject>() {
@@ -330,7 +331,7 @@ public class OrderFragment extends BaseFragment {
                     private TextView name;
                     private Button confirmButton;
 
-                    public ItemVH(View itemView) {
+                    public ItemVH(final View itemView) {
                         super(itemView);
 
                         name = (TextView) itemView.findViewById(R.id.menuNameTextView);
