@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.avos.avoscloud.AVException;
 import com.example.administrator.client.R;
 import com.example.administrator.client.utils.SharedPreferencesUtil;
 
@@ -50,8 +51,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    public void logError(Throwable e) {
-        Log.e("error", e.toString());
+    public void logError(AVException e) {
+        Log.e("error", e.getMessage() + e.getCode());
     }
 
 

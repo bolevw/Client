@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_background_white"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/global_include_toolbar" />
+
+    <TextView
+        android:id="@+id/moneyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="总金额为："
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="@dimen/text_large" />
+
+
+    <Button
+        android:id="@+id/payButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="付款"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="@dimen/text_large" />
+
+
+    <RadioGroup
+        android:id="@+id/payGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/zhifubao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="支付宝" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/weixin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/bankCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="银行卡" />
+    </RadioGroup>
+
+</LinearLayout>

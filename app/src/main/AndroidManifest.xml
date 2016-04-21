@@ -70,6 +70,11 @@
             android:name=".ui.activity.GetNumActivity"
             android:label="@string/title_get_num"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.PayActivity"
+            android:label="@string/title_pay"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

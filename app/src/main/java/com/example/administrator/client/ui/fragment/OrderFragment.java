@@ -22,6 +22,7 @@ import com.example.administrator.client.base.ItemData;
 import com.example.administrator.client.model.MenuAVModel;
 import com.example.administrator.client.model.OrderAVModel;
 import com.example.administrator.client.model.OrderItemAVModel;
+import com.example.administrator.client.ui.activity.PayActivity;
 import com.example.administrator.client.utils.GsonUtils;
 import com.example.administrator.client.utils.ToastUtils;
 import com.google.gson.reflect.TypeToken;
@@ -34,6 +35,15 @@ import java.util.List;
  * Created by Administrator on 2016/4/18.
  */
 public class OrderFragment extends BaseFragment {
+
+    private static final int CLIENT_GET_MENU = 2;
+    private static final int COOK_FINISH_THIS_MENU = 3;
+
+    private static final int ORDER_BEGIN = 2;
+    private static final int ORDER_FINISH = 3;
+    private static final int ORDER_CLIENT_GET_ALL = 4;
+    private static final int ORDER_CLIENT_PAID = 5;
+    private static final int ORDER_CLIENT_PAY_FINISH = 6;
 
 
     private SwipeRefreshLayout refreshLayout;
@@ -67,7 +77,7 @@ public class OrderFragment extends BaseFragment {
 
         AVQuery<AVObject> query = new AVQuery<>("OrderTable");
         query.whereEqualTo("userId", preferencesUtil.getStringValue("userId"));
-        query.whereNotEqualTo("orderStatus", 3);
+        query.whereNotEqualTo("orderStatus", ORDER_CLIENT_PAY_FINISH);
 
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<AVObject>() {
@@ -129,11 +139,15 @@ public class OrderFragment extends BaseFragment {
 
             vh.orderMoneyTextView.setText("总计：" + model.getOrderMoney() + "元");
             vh.setItemViewData(new ItemData<Integer, List<OrderItemAVModel>>(position, model.getMenuList()));
-            if (model.getOrderStatus() == 2) {
+
+            if (model.getOrderStatus() == ORDER_BEGIN) {
                 vh.tableNumTextView.setText(model.getTableNum() + "号桌, 厨师已经开始做菜了，请等候服务员上菜");
-                vh.confirmButton.setEnabled(true);
-            } else if (model.getOrderStatus() == 3) {
+                vh.confirmButton.setEnabled(false);
+            } else if (model.getOrderStatus() == ORDER_FINISH) {
                 vh.tableNumTextView.setText(model.getTableNum() + "号桌,菜已经上齐了。");
+                vh.confirmButton.setEnabled(true);
+            } else if (model.getOrderStatus() == ORDER_CLIENT_GET_ALL) {
+                vh.tableNumTextView.setText(model.getTableNum() + "号桌,您已经确认收到所有的菜。");
                 vh.confirmButton.setEnabled(true);
             } else {
                 vh.tableNumTextView.setText(model.getTableNum() + "号桌, 等待厨师确认订单.");
@@ -148,17 +162,20 @@ public class OrderFragment extends BaseFragment {
                     query.findInBackground(new FindCallback<AVObject>() {
                         @Override
                         public void done(List<AVObject> list, AVException e) {
-                            AVObject object = list.get(0);
-                            object.put("orderStatus", 3);//开始做菜
-                            object.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(AVException e) {
-                                    if (e == null) {
-                                        vh.confirmButton.setText("收到所有的菜");
-                                        vh.confirmButton.setEnabled(false);
+                            if (e == null && list.size() > 0) {
+                                AVObject object = list.get(0);
+                                object.put("orderStatus", ORDER_CLIENT_PAID);//收到所有的菜
+                                object.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(AVException e) {
+                                        if (e == null) {
+                                            vh.confirmButton.setText("收到所有的菜");
+                                            vh.confirmButton.setEnabled(false);
+                                            PayActivity.newInstance(getActivity(), model.getId(), model.getOrderMoney());
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     });
                 }
@@ -228,54 +245,6 @@ public class OrderFragment extends BaseFragment {
                     vh.name.setText(model.getModel().getName());
                     final int status = model.getModel().getMenuStatus();
                     vh.confirmButton.setTag(itemViewData.getKey());
-                    vh.confirmButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (model.getModel().getMenuStatus() == 3) {
-                                final List<OrderItemAVModel> list1 = itemViewData.getValue();
-                                OrderItemAVModel orderItemAVModel = list1.get(position);
-                                MenuAVModel menuAVModel = orderItemAVModel.getModel();
-                                menuAVModel.setMenuStatus(2);
-                                list1.remove(position);
-                                orderItemAVModel.setModel(menuAVModel);
-                                list1.add(orderItemAVModel);
-//                            setItemViewData(new ItemData<Integer, List<OrderItemAVModel>>(itemViewData.getKey(), list));
-
-
-                                int p = (int) vh.confirmButton.getTag();
-                                String obId = viewData.get(p).getId();
-                                AVQuery<AVObject> query = new AVQuery<AVObject>("OrderTable");
-                                query.whereEqualTo("objectId", obId);
-                                query.findInBackground(new FindCallback<AVObject>() {
-                                    @Override
-                                    public void done(List<AVObject> list, AVException e) {
-                                        if (e == null && list.size() > 0) {
-                                            AVObject getOb = list.get(0);
-                                            getOb.put("menuList", GsonUtils.getInstance().getGson().toJson(list1));
-                                            getOb.saveInBackground(new SaveCallback() {
-                                                @Override
-                                                public void done(AVException e) {
-                                                    if (e == null) {
-                                                        vh.confirmButton.setVisibility(View.GONE);
-                                                        ToastUtils.showNormalToast("修改成功");
-                                                        getData();
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-                            } else {
-                                return;
-                            }
-                        }
-                    });
-
-                    if (status == 2) {
-                        vh.confirmButton.setVisibility(View.GONE);
-                    } else {
-                        vh.confirmButton.setVisibility(View.VISIBLE);
-                    }
 
                     int orderStatus = viewData.get(itemViewData.getKey()).getOrderStatus();
                     if (orderStatus == 1) {
@@ -283,6 +252,71 @@ public class OrderFragment extends BaseFragment {
                     } else {
                         vh.confirmButton.setClickable(true);
                     }
+
+                    if (status == CLIENT_GET_MENU) {
+                        vh.confirmButton.setVisibility(View.GONE);
+                    } else {
+                        vh.confirmButton.setVisibility(View.VISIBLE);
+
+                    }
+
+                    vh.confirmButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.getModel().getMenuStatus() == 1) {
+                                return;
+                            }
+
+                            final List<OrderItemAVModel> list1 = itemViewData.getValue();
+                            OrderItemAVModel orderItemAVModel = list1.get(position);
+                            MenuAVModel menuAVModel = orderItemAVModel.getModel();
+                            menuAVModel.setMenuStatus(CLIENT_GET_MENU); //收到
+                            list1.remove(position);
+                            orderItemAVModel.setModel(menuAVModel);
+                            list1.add(orderItemAVModel);
+//                            setItemViewData(new ItemData<Integer, List<OrderItemAVModel>>(itemViewData.getKey(), list));
+
+                            boolean getALL = true;
+                            for (OrderItemAVModel avModel : list1) {
+                                if (avModel.getModel().getMenuStatus() == 1) {
+                                    getALL = false;
+                                    break;
+                                }
+                            }
+
+
+                            int p = (int) vh.confirmButton.getTag();
+                            String obId = viewData.get(p).getId();
+                            AVQuery<AVObject> query = new AVQuery<AVObject>("OrderTable");
+                            query.whereEqualTo("objectId", obId);
+                            final boolean finalGetALL = getALL;
+                            query.findInBackground(new FindCallback<AVObject>() {
+                                @Override
+                                public void done(List<AVObject> list, AVException e) {
+                                    if (e == null && list.size() > 0) {
+                                        AVObject getOb = list.get(0);
+                                        getOb.put("menuList", GsonUtils.getInstance().getGson().toJson(list1));
+                                        if (finalGetALL) {
+                                            getOb.put("orderStatus", ORDER_CLIENT_GET_ALL);
+                                        }
+                                        getOb.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(AVException e) {
+                                                if (e == null) {
+                                                    vh.confirmButton.setVisibility(View.GONE);
+                                                    ToastUtils.showNormalToast("修改成功");
+                                                    getData();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+                        }
+                    });
+
+
                 }
 
                 @Override
