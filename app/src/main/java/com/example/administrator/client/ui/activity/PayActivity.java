@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.example.administrator.client.R;
@@ -59,6 +60,7 @@ public class PayActivity extends BaseActivity {
         payObject.put("objId", objId);
         payObject.put("money", money);
         payObject.put("payStatus", 1);
+        payObject.put("username", AVUser.getCurrentUser().getUsername());
         payObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
