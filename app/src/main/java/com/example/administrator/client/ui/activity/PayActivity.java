@@ -86,41 +86,45 @@ public class PayActivity extends BaseActivity {
                 query.findInBackground(new FindCallback<AVObject>() {
                     @Override
                     public void done(List<AVObject> list, AVException e) {
-                        AVObject object = list.get(0);
-                        object.put("orderStatus", ORDER_CLIENT_PAY_FINISH);
-                        object.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(AVException e) {
-                                if (e == null) {
-                                    AVQuery<AVObject> q = new AVQuery<AVObject>("PayTable");
-                                    q.whereEqualTo("objectId", payId);
-                                    q.findInBackground(new FindCallback<AVObject>() {
-                                        @Override
-                                        public void done(List<AVObject> list, AVException e) {
-                                            if (e == null && list.size() > 0) {
-                                                AVObject o = list.get(0);
-                                                o.put("payStatus", 2);
-                                                o.saveInBackground(new SaveCallback() {
-                                                    @Override
-                                                    public void done(AVException e) {
-                                                        if (e == null) {
-                                                            ToastUtils.showNormalToast("支付成功！");
-                                                            finish();
-                                                        } else {
-                                                            logError(e);
+                        if (e == null && list.size() > 0) {
+                            AVObject object = list.get(0);
+                            object.put("orderStatus", ORDER_CLIENT_PAY_FINISH);
+                            object.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(AVException e) {
+                                    if (e == null) {
+                                        AVQuery<AVObject> q = new AVQuery<AVObject>("PayTable");
+                                        q.whereEqualTo("objectId", payId);
+                                        q.findInBackground(new FindCallback<AVObject>() {
+                                            @Override
+                                            public void done(List<AVObject> list, AVException e) {
+                                                if (e == null && list.size() > 0) {
+                                                    AVObject o = list.get(0);
+                                                    o.put("payStatus", 2);
+                                                    o.saveInBackground(new SaveCallback() {
+                                                        @Override
+                                                        public void done(AVException e) {
+                                                            if (e == null) {
+                                                                ToastUtils.showNormalToast("支付成功！");
+                                                                finish();
+                                                            } else {
+                                                                logError(e);
+                                                            }
                                                         }
-                                                    }
-                                                });
-                                            } else {
-                                                logError(e);
+                                                    });
+                                                } else {
+
+                                                }
                                             }
-                                        }
-                                    });
-                                } else {
-                                    logError(e);
+                                        });
+                                    } else {
+
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        } else {
+
+                        }
                     }
                 });
             }

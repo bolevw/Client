@@ -23,6 +23,7 @@ import com.example.administrator.client.model.MenuAVModel;
 import com.example.administrator.client.model.OrderAVModel;
 import com.example.administrator.client.model.OrderItemAVModel;
 import com.example.administrator.client.ui.activity.PayActivity;
+import com.example.administrator.client.utils.CustomLinearLayoutManager;
 import com.example.administrator.client.utils.GsonUtils;
 import com.example.administrator.client.utils.ToastUtils;
 import com.google.gson.reflect.TypeToken;
@@ -77,7 +78,7 @@ public class OrderFragment extends BaseFragment {
 
         AVQuery<AVObject> query = new AVQuery<>("OrderTable");
         query.whereEqualTo("userId", preferencesUtil.getStringValue("userId"));
-        query.whereNotEqualTo("orderStatus", ORDER_CLIENT_PAY_FINISH);
+        query.whereLessThan("orderStatus", ORDER_CLIENT_PAY_FINISH);
 
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<AVObject>() {
@@ -225,7 +226,7 @@ public class OrderFragment extends BaseFragment {
 
                 confirmButton = (Button) itemView.findViewById(R.id.itemOrderConfirmButton);
 
-                itemOrderRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                itemOrderRecyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity()));
                 itemOrderRecyclerView.setAdapter(new ItemAdapter());
             }
 
@@ -263,6 +264,7 @@ public class OrderFragment extends BaseFragment {
                     vh.confirmButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            getData();
                             if (model.getModel().getMenuStatus() == 1) {
                                 return;
                             }
