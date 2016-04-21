@@ -26,7 +26,10 @@ import com.example.administrator.client.model.NameValue;
 import com.example.administrator.client.ui.activity.AboutMeActivity;
 import com.example.administrator.client.ui.activity.ChangeBirthActivity;
 import com.example.administrator.client.ui.activity.ChangePwActivity;
+import com.example.administrator.client.ui.activity.IntegralActivity;
+import com.example.administrator.client.ui.activity.OrderHistoryActivity;
 import com.example.administrator.client.utils.BitmapCompressUtil;
+import com.example.administrator.client.utils.PicassoUtils;
 import com.example.administrator.client.utils.ToastUtils;
 import com.example.administrator.client.utils.album.AlbumIntentUtil;
 
@@ -71,6 +74,17 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void bind() {
+        getData();
+    }
+
+    private void getData() {
+        AVUser user = AVUser.getCurrentUser();
+        AVFile file = user.getAVFile("avatar");
+        if (file == null) {
+            return;
+        } else {
+            PicassoUtils.normalShowImage(getActivity(), file.getUrl(), avatarImageView);
+        }
 
     }
 
@@ -81,6 +95,7 @@ public class MineFragment extends BaseFragment {
         changePassword.setOnClickListener(listener);
         mineIntegral.setOnClickListener(listener);
         aboutMe.setOnClickListener(listener);
+        mineOrder.setOnClickListener(listener);
 
         logOut.setOnClickListener(listener);
     }
@@ -105,10 +120,13 @@ public class MineFragment extends BaseFragment {
 
             if (id == mineIntegral.getId()) {
                 // mine integral
+                startActivity(new Intent(getActivity(), IntegralActivity.class));
             }
 
             if (id == mineOrder.getId()) {
                 // mine order
+                startActivity(new Intent(getActivity(), OrderHistoryActivity.class));
+
             }
 
             if (id == aboutMe.getId()) {

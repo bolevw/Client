@@ -75,6 +75,16 @@
             android:name=".ui.activity.PayActivity"
             android:label="@string/title_pay"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.OrderHistoryActivity"
+            android:label="@string/title_order_history"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.IntegralActivity"
+            android:label="@string/title_integral"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

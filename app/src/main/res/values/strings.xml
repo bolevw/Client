@@ -32,5 +32,7 @@
     <string name="title_change_pw">修改密码</string>
     <string name="title_get_num">取号</string>
     <string name="title_pay">付款</string>
+    <string name="title_integral">我的积分</string>
+    <string name="title_order_history">我的订单</string>
 
 </resources>
