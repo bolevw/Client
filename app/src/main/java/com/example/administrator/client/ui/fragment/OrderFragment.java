@@ -84,6 +84,7 @@ public class OrderFragment extends BaseFragment {
                         model.setUserId(object.getString("userId"));
                         model.setUsername(object.getString("username"));
                         model.setOrderStatus(object.getNumber("orderStatus").intValue());
+                        model.setOrderMoney(object.getString("orderMoney"));
                         Type listType = new TypeToken<List<OrderItemAVModel>>() {
                         }.getType();
                         List<OrderItemAVModel> listData = GsonUtils.getInstance().getGson().fromJson(object.getString("menuList"), listType);
@@ -126,6 +127,7 @@ public class OrderFragment extends BaseFragment {
             final OrderVH vh = (OrderVH) holder;
             final OrderAVModel model = viewData.get(position);
 
+            vh.orderMoneyTextView.setText("总计：" + model.getOrderMoney() + "元");
             vh.setItemViewData(new ItemData<Integer, List<OrderItemAVModel>>(position, model.getMenuList()));
             if (model.getOrderStatus() == 2) {
                 vh.tableNumTextView.setText(model.getTableNum() + "号桌, 厨师已经开始做菜了，请等候服务员上菜");
@@ -172,6 +174,7 @@ public class OrderFragment extends BaseFragment {
         private class OrderVH extends RecyclerView.ViewHolder {
             private RecyclerView itemOrderRecyclerView;
             private TextView tableNumTextView;
+            private TextView orderMoneyTextView;
             private Button confirmButton;
 
             private ItemData<Integer, List<OrderItemAVModel>> itemViewData = new ItemData<>();
@@ -199,6 +202,7 @@ public class OrderFragment extends BaseFragment {
             public OrderVH(View itemView) {
                 super(itemView);
 
+                orderMoneyTextView = (TextView) itemView.findViewById(R.id.orderMoneyTextView);
                 tableNumTextView = (TextView) itemView.findViewById(R.id.tableNumTextView);
                 itemOrderRecyclerView = (RecyclerView) itemView.findViewById(R.id.itemOrderRecyclerView);
 

@@ -1,7 +1,5 @@
 package com.example.administrator.client.model;
 
-import com.avos.avoscloud.AVClassName;
-
 import java.util.List;
 
 /**
@@ -14,7 +12,16 @@ public class OrderAVModel {
     private List<OrderItemAVModel> menuList;
     private String username;
     private Integer orderStatus;
+    private String orderMoney;
 
+
+    public String getOrderMoney() {
+        return orderMoney;
+    }
+
+    public void setOrderMoney(String orderMoney) {
+        this.orderMoney = orderMoney;
+    }
 
     public String getId() {
         return id;

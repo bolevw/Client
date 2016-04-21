@@ -96,6 +96,7 @@ public class CreateOrderActivity extends BaseActivity {
         avObject.put("tableNum", preferencesUtil.getIntValue("num") + "");
         avObject.put("menuList", GsonUtils.getInstance().getGson().toJson(viewData));
         avObject.put("orderStatus", 1);
+        avObject.put("orderMoney", allMoney);
         avObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
