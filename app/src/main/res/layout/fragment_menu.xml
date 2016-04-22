@@ -10,7 +10,7 @@
         android:id="@+id/menuRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom">
+        android:layout_above="@+id/cut_line">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/menuRecyclerView"
@@ -18,6 +18,12 @@
             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <View
+        android:id="@+id/cut_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@+id/bottom"
+        android:background="@android:color/holo_red_light" />
 
     <LinearLayout
         android:id="@+id/bottom"

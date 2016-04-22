@@ -67,11 +67,11 @@ public class CreateOrderActivity extends BaseActivity {
 
         submitButton = (Button) findViewById(R.id.submitButton);
 
-        allMoneyTextView.setText(allMoney);
+        allMoneyTextView.setText("总计" + allMoney + "元");
 
         tableNumEditText = (AppCompatEditText) findViewById(R.id.tableNumEditText);
 
-        tableNumEditText.setText(preferencesUtil.getIntValue("num") + "桌");
+        tableNumEditText.setText("您的桌号为：" + preferencesUtil.getIntValue("num") + "桌");
     }
 
     @Override

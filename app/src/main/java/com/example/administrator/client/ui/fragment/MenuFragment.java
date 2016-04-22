@@ -1,9 +1,10 @@
 package com.example.administrator.client.ui.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +30,7 @@ import com.example.administrator.client.base.ItemData;
 import com.example.administrator.client.model.MenuModel;
 import com.example.administrator.client.model.OrderItemModel;
 import com.example.administrator.client.ui.activity.CreateOrderActivity;
+import com.example.administrator.client.ui.activity.SearchActivity;
 import com.example.administrator.client.utils.PicassoUtils;
 import com.example.administrator.client.utils.ToastUtils;
 
@@ -126,6 +128,7 @@ public class MenuFragment extends BaseFragment {
 
     @Override
     protected void bind() {
+        cacluteMenu();
         getData();
     }
 
@@ -177,7 +180,6 @@ public class MenuFragment extends BaseFragment {
 
     @Override
     protected void unbind() {
-        getData();
     }
 
     int size = 0;
@@ -185,18 +187,15 @@ public class MenuFragment extends BaseFragment {
     int allSize = 0;
 
     private void cacluteMenu() {
-
-
         datas.clear();
         passData.clear();
-
         size = nos.size();
-
         all = 0;
         allSize = 0;
 
         Set<Integer> set = nos.keySet();
         Iterator<Integer> iterator = set.iterator();
+
         while (iterator.hasNext()) {
             int position = iterator.next();
             ItemData<Integer, MenuModel> mo = nos.get(position);
@@ -206,7 +205,7 @@ public class MenuFragment extends BaseFragment {
             passData.add(new OrderItemModel(mo.getKey(), mo.getValue()));
         }
 
-        moneyTextView.setText(all + "");
+        moneyTextView.setText("总计" + all + "元");
         noTextView.setText(size + "种菜," + allSize + "份。");
         recyclerView.getAdapter().notifyDataSetChanged();
         menuListRecyclerView.getAdapter().notifyDataSetChanged();
@@ -235,6 +234,7 @@ public class MenuFragment extends BaseFragment {
                             model.setType(object.getString("type"));
                             model.setTaste(object.getString("taste"));
                             model.setMethod(object.getString("method"));
+                            model.setFunction(object.getString("function"));
                             viewData.add(model);
                         }
 
@@ -270,6 +270,25 @@ public class MenuFragment extends BaseFragment {
             vh.itemContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("菜品详情");
+                    builder.setView(R.layout.layout_menu_detail);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    TextView detail = (TextView) dialog.findViewById(R.id.menuDetailTextView);
+                    TextView name = (TextView) dialog.findViewById(R.id.menuNameTextView);
+                    TextView function = (TextView) dialog.findViewById(R.id.menuFunction);
+                    TextView menuType = (TextView) dialog.findViewById(R.id.menuTypeTextView);
+                    TextView menuMethod = (TextView) dialog.findViewById(R.id.menuMethod);
+                    TextView money = (TextView) dialog.findViewById(R.id.menuMoneyTextView);
+
+                    detail.setText("食材：" + model.getDetail());
+                    name.setText("菜名：" + model.getName());
+                    function.setText("营养价值：" + model.getFunction());
+                    menuType.setText("菜系：" + model.getType());
+                    menuMethod.setText("做法：" + model.getMethod());
+                    money.setText("价格：" + model.getMoney() + "元/份");
+
 
                 }
             });
@@ -310,7 +329,7 @@ public class MenuFragment extends BaseFragment {
 
             vh.moneyTextView.setText(model.getMoney() + "元/份");
             vh.nameTextView.setText(model.getName());
-            vh.detailTextView.setText(model.getDetail());
+            vh.detailTextView.setText("食材：" + model.getDetail());
 
             PicassoUtils.normalShowImage(getActivity(), model.getImageSrc(), vh.menuImageView);
 
@@ -363,8 +382,8 @@ public class MenuFragment extends BaseFragment {
             final VH vh = (VH) holder;
             final ItemData<Integer, MenuModel> itemData = datas.get(position).getValue();
             PicassoUtils.normalShowImage(getActivity(), itemData.getValue().getImageSrc(), vh.menuImageView);
-            vh.nameTextView.setText(itemData.getValue().getName());
-            vh.moneyTextView.setText(itemData.getValue().getMoney());
+            vh.nameTextView.setText("菜名：" + itemData.getValue().getName());
+            vh.moneyTextView.setText(itemData.getValue().getMoney() + "元/份");
 
 
             vh.addButton.setOnClickListener(new View.OnClickListener() {
@@ -453,20 +472,9 @@ public class MenuFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_search) {
             //
+            startActivity(new Intent(getActivity(), SearchActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    class Man extends LinearLayoutManager {
-
-        public Man(Context context) {
-            super(context);
-        }
-
-        @Override
-        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-            super.onLayoutChildren(recycler, state);
-        }
     }
 }

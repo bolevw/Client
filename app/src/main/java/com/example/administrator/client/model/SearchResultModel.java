@@ -3,9 +3,9 @@ package com.example.administrator.client.model;
 import java.io.Serializable;
 
 /**
- * Created by liubo on 4/17/16.
+ * Created by Administrator on 2016/4/22.
  */
-public class MenuModel implements Serializable {
+public class SearchResultModel implements Serializable {
 
 
     private String id;
@@ -19,6 +19,23 @@ public class MenuModel implements Serializable {
     private String method; // 做法
     private boolean has;
     private int menuStatus = 1;
+
+    public SearchResultModel() {
+    }
+
+    public SearchResultModel(String id, String imageSrc, String name, String detail, String function, String money, String type, String taste, String method, boolean has, int menuStatus) {
+        this.id = id;
+        this.imageSrc = imageSrc;
+        this.name = name;
+        this.detail = detail;
+        this.function = function;
+        this.money = money;
+        this.type = type;
+        this.taste = taste;
+        this.method = method;
+        this.has = has;
+        this.menuStatus = menuStatus;
+    }
 
     public int getMenuStatus() {
         return menuStatus;

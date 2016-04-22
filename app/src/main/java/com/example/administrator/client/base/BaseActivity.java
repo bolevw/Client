@@ -30,6 +30,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         initView();
         setListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         bind();
     }
 
