@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.example.administrator.client.R;
 import com.example.administrator.client.base.BaseActivity;
@@ -60,6 +61,7 @@ public class OrderHistoryActivity extends BaseActivity {
     private void getData() {
         AVQuery<AVObject> query = new AVQuery<>("OrderTable");
         query.whereGreaterThanOrEqualTo("orderStatus", 5);
+        query.whereEqualTo("username", AVUser.getCurrentUser().getUsername());
         query.orderByDescending("updatedAt");
         query.findInBackground(new FindCallback<AVObject>() {
             @Override
