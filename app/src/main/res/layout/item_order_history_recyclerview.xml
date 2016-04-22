@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_click_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/typeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="餐饮消费" />
+
+
+        <TextView
+            android:id="@+id/moneyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|end"
+            android:text="餐饮消费"
+            android:textColor="@android:color/holo_red_light" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right|end"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:text="date"
+        android:textSize="@dimen/text_normal" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@android:color/holo_red_light" />
+</LinearLayout>
