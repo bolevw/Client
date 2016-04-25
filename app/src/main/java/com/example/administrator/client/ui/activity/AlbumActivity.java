@@ -302,6 +302,12 @@ public class AlbumActivity extends BaseActivity {
         @Override
         public void onItemClick(Uri uri, int position) {
             if (enableCamera && position == 0) {
+                cameraOutPutUri = Uri
+                        .fromFile(Environment.getExternalStoragePublicDirectory(DIRECTORY_TYPE))
+                        .buildUpon()
+                        .appendPath(System.currentTimeMillis() + "_" + CAMERA_FILE_NAME)
+                        .build();
+                AlbumIntentUtil.startCameraActivityForResult(AlbumActivity.this, cameraOutPutUri);
             } else {
                 if (maxChoice == 1) {
                     if (enableCrop) {
