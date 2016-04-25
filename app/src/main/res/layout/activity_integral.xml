@@ -12,7 +12,13 @@
     <TextView
         android:id="@+id/allMoneyTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_text_integral"
+        android:paddingBottom="8dp"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingTop="8dp"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_normal" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/integralRefreshLayout"

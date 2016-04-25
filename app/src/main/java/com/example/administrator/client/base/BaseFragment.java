@@ -25,9 +25,15 @@ public abstract class BaseFragment extends Fragment {
 
         initView(view);
         setListener();
-        bind();
+
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bind();
+    }
 
     public void logError(AVException e) {
         Log.e("error", e.getCode() + e.getMessage());

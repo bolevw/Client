@@ -77,7 +77,7 @@ public class IntegralActivity extends BaseActivity {
                     all = 0;
                     for (AVObject object : list) {
                         IntegralModel model = new IntegralModel();
-                        model.setDate(object.getCreatedAt().toString());
+                        model.setDate("日期：" + object.getCreatedAt().toString());
                         model.setMoney(object.getString("money"));
                         model.setId(object.getObjectId());
                         model.setType("饭店消费");

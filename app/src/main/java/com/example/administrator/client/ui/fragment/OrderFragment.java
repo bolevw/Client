@@ -1,5 +1,7 @@
 package com.example.administrator.client.ui.fragment;
 
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -80,8 +82,8 @@ public class OrderFragment extends BaseFragment {
         query.whereEqualTo("userId", preferencesUtil.getStringValue("userId"));
         query.whereLessThan("orderStatus", ORDER_CLIENT_PAY_FINISH);
         query.whereEqualTo("tableNum", preferencesUtil.getIntValue("num") + "");
-
         query.orderByDescending("createdAt");
+
         query.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {
@@ -229,6 +231,20 @@ public class OrderFragment extends BaseFragment {
 
                 itemOrderRecyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity()));
                 itemOrderRecyclerView.setAdapter(new ItemAdapter());
+
+                itemOrderRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+
+                    @Override
+                    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                        super.getItemOffsets(outRect, view, parent, state);
+                        outRect.bottom = getActivity().getResources().getDimensionPixelSize(R.dimen.cut_line);
+                    }
+
+                    @Override
+                    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                        super.onDraw(c, parent, state);
+                    }
+                });
             }
 
 
@@ -244,7 +260,7 @@ public class OrderFragment extends BaseFragment {
                     final ItemVH vh = (ItemVH) holder;
                     final OrderItemAVModel model = itemViewData.getValue().get(position);
 
-                    vh.name.setText(model.getModel().getName());
+                    vh.name.setText("菜名:" + model.getModel().getName());
                     final int status = model.getModel().getMenuStatus();
                     vh.confirmButton.setTag(itemViewData.getKey());
 

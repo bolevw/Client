@@ -4,24 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:background="@drawable/bg_click_white"
+    android:clickable="true"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/menuNameTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="11" />
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:text="11"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_normal" />
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="已经收到菜" />
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:text="已收到菜" />
 
         <Button
             android:id="@+id/confirmButton"
