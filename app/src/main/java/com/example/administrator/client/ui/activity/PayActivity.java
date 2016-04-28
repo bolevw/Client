@@ -108,6 +108,7 @@ public class PayActivity extends BaseActivity {
                                                         public void done(AVException e) {
                                                             if (e == null) {
                                                                 ToastUtils.showNormalToast("支付成功！");
+                                                                startActivity(new Intent(PayActivity.this, EvaluateActivity.class));
                                                                 finish();
                                                             } else {
                                                                 logError(e);

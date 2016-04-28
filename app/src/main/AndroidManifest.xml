@@ -94,6 +94,11 @@
             android:name=".ui.activity.MenuDetailActivity"
             android:label="@string/title_menu_detail"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.EvaluateActivity"
+            android:label="@string/title_evaluate"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

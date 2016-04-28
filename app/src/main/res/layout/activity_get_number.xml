@@ -1,39 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_background_white"
-    android:orientation="vertical">
+    android:background="@color/common_background_white">
 
-    <include layout="@layout/global_include_toolbar" />
-
-    <TextView
-        android:id="@+id/numTextView"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:text="点击取号"
-        android:textColor="@color/orange_800"
-        android:textSize="@dimen/text_large" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/global_include_toolbar" />
+        <TextView
+            android:id="@+id/speedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="11"
+            android:textSize="@dimen/text_normal" />
 
+        <TextView
+            android:id="@+id/priceTextView"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="11"
+            android:textSize="@dimen/text_normal" />
 
-    <Button
-        android:id="@+id/getNumButton"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="点我取号" />
+        <TextView
+            android:id="@+id/environmentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="11"
+            android:textSize="@dimen/text_normal" />
 
+        <TextView
+            android:id="@+id/appearanceTextView"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="11"
+            android:textSize="@dimen/text_normal" />
 
-    <Button
-        android:id="@+id/beginOrderButton"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="开始点菜" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/mannerTextView"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="11"
+            android:textSize="@dimen/text_normal" />
+
+        <TextView
+            android:id="@+id/numTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:text="点击取号"
+            android:textColor="@color/orange_800"
+            android:textSize="@dimen/text_large" />
+
+        <Button
+            android:id="@+id/getNumButton"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="点我取号" />
+
+        <Button
+            android:id="@+id/beginOrderButton"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="开始点菜" />
+
+    </LinearLayout>
+</ScrollView>

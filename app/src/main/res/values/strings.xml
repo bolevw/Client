@@ -36,5 +36,6 @@
     <string name="title_order_history">我的订单</string>
     <string name="title_search">搜索</string>
     <string name="title_menu_detail">菜品详情</string>
+    <string name="title_evaluate">评价</string>
 
 </resources>
